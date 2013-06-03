@@ -1,16 +1,12 @@
 package guilinsoft.sky.action.backstage;
 
 import guilinsoft.sky.utils.MMsg;
-import io.netty.util.HashedWheelTimer;
-import io.netty.util.Timeout;
-import io.netty.util.Timer;
-import io.netty.util.TimerTask;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.TimerTask;
 
 import com.jzero.db.core.M;
 import com.jzero.log.Log;
@@ -36,7 +32,7 @@ public class Poll {
 		List<MRecord> lst=M.me().get_table(MMsg.XT_TERMINAL);
 		if(!MCheck.isNull(lst)){
 			for(MRecord row:lst){
-				boolean isReach=isReachable(row.getStr("ip"), MPro.me().getStr("poll_port"), 2000);//2秒钟?
+				boolean isReach=isReachable(row.getStr("ip"), null, 5000);//2秒钟?
 				int online=isReach?1:0;
 				M.me().update(MMsg.XT_TERMINAL, new MRecord().set("online", online), MCnt.me().first_eq("ip", row.getStr("ip")).toStr());
 			}
@@ -47,12 +43,20 @@ public class Poll {
 	 */
 	public void start(){
 		MPrint.print("已开记轮训.");
-		Timer timer = new HashedWheelTimer();
-		timer.newTimeout(new TimerTask() {
-			public void run(Timeout timeout) throws Exception {
+//		Timer timer = new HashedWheelTimer();
+//		timer.newTimeout(new TimerTask() {
+//			public void run(Timeout timeout) throws Exception {
+//				index();
+//			}
+//		}, MPro.me().getInt("wait_time"), TimeUnit.MINUTES);
+		Long wait_time=MPro.me().getInt("wait_time")*1000*60L;
+		java.util.Timer timer=new java.util.Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
 				index();
 			}
-		}, MPro.me().getInt("wait_time"), TimeUnit.MINUTES);
+		}, 0,wait_time);
 	}
 	 private static boolean isReachable(String ip, String port, int timeout) {
 	        boolean reachable = false;
@@ -68,7 +72,7 @@ public class Poll {
 	        } else {
 	            Socket socket = new Socket();
 	            try {
-	                socket.connect(new InetSocketAddress(ip, 65534), timeout);
+	                socket.connect(new InetSocketAddress(ip, Integer.parseInt(port)), timeout);
 	                reachable = true;
 	            } catch (Exception e) {
 	            	Log.me().write(e.getMessage());

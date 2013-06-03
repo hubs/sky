@@ -33,7 +33,7 @@
 			<%=T.td_l("截止时间","endtime") %><%=T.td(T.time_must_ymd("endtime",row.get("endtime"))) %>
 		<%=T.tr_close() %>
 		<%=T.tr() %><%=T.td_l("说明","introduce")%><%=T.td(3,T.textarea_kind_no("introduce",row.getStr("introduce"),180)) %><%=T.tr_close() %>
-		<%=T.img_mul_show(lst,row.getStr("fimg"),4) %>
+		<%=T.img_mul_show(lst,row.getStr("path"),4) %>
 		<%=T.tr_space(4) %>
 	<%=T. table_close_form() %>
 <%=T.alert() %>

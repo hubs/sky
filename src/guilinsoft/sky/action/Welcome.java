@@ -34,7 +34,7 @@ public class Welcome {
 		MB.me().getJspRender("/xitong/main/main.jsp");
 	}
 	private StringBuffer addMarker(){
-		List<MRecord> lst=M.me().get_table(MMsg.XT_TERMINAL);
+		List<MRecord> lst=M.me().get_table_n(MMsg.XT_TERMINAL);
 		StringBuffer sb=new StringBuffer();
 		if(!MCheck.isNull(lst)){
 			for(MRecord row:lst){

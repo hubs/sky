@@ -40,7 +40,7 @@ public class Content {
 	public void index(){
 		MRecord out_datas=get_fl();
 		String where=MCnt.me().and_eq("parent_id",out_datas.get("parent_id")).toStr();
-		MComm.me().m_list(MMsg.WZ_CONTENT,out_datas,where,new Object[]{"order by is_recommend  "});
+		MComm.me().m_list(MMsg.WZ_CONTENT,out_datas,where,new Object[]{"order by is_recommend ,pubdate desc "});
 	}
 	public void add(){
 		MRecord out=add_edit_comm(get_fl());
