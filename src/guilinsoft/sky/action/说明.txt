@@ -1,0 +1,46 @@
+此包主要负责前台页面控制
+private static final String TABLE = "wz_news";
+	public void find() {
+     	MComm.me().m_find(TABLE);
+	}
+
+	public void edit() {
+		MComm.me().m_edit(TABLE);
+	}
+
+	public void update() {
+		MComm.me().m_update(TABLE);
+	}
+
+	public void save() {
+		MComm.me().m_save(TABLE);
+	}
+
+	public void view() {
+		MComm.me().m_view(TABLE);
+	}
+
+	public void add() {
+		MComm.me().m_add();
+	}
+
+	public void del() {
+		MComm.me().m_del(TABLE);
+	}
+
+	public void batch() {
+		MComm.me().m_batch_del(TABLE);
+	}
+
+	public void upload() {
+		M.me().tx(new ITX() {
+			public boolean run() throws SQLException {
+				M.me().execute(" INSERT INTO wz_news(id) VALUES ('39')");
+				M.me().execute(" INSERT INTO wz_news(id) VALUES ('40')");
+				M.me().execute(" INSERT INTO wz_news(id) VALUES ('41')");
+				M.me().insert(TABLE, new MRecord().set("id", "555"));
+				return false;
+			}
+		});
+		// MComm.me().m_save_upload(TABLE);
+	}

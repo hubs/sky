@@ -1,0 +1,5 @@
+1、	MURI.me().seg_str(seg)使用
+	//xitong/jichuxinxi/add/22测 
+	如果想取22测,则seg为3,因为seg存储在数组中,数据是以0为开始的
+	MURI.me().seg_str(seg)
+	WDPF
